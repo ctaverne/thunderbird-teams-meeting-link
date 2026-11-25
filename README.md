@@ -14,7 +14,7 @@ Extension non officielle, sans lien avec Microsoft.
 
 ## État
 
-Version 3.0.0 (identifiant définitif). Fonctionnement validé en 2.3.3 dans Thunderbird 153 ESR : connexion par bandeau, création de la réunion, insertion du bloc et du Lieu, mise à jour de la réunion Teams à l'enregistrement de l'événement.
+Version 3.0.1 (identifiant définitif, compatible jusqu'à Thunderbird 153). Fonctionnement validé en 2.3.3 dans Thunderbird 153 ESR : connexion par bandeau, création de la réunion, insertion du bloc et du Lieu, mise à jour de la réunion Teams à l'enregistrement de l'événement.
 
 ## Sommaire
 
@@ -36,7 +36,7 @@ Version 3.0.0 (identifiant définitif). Fonctionnement validé en 2.3.3 dans Thu
 ## Prérequis
 
 - **Compte Microsoft 365 professionnel** (tenant Entra ID) disposant de Teams. Les comptes personnels (outlook.com, hotmail…) ne sont pas pris en charge par l'API Microsoft Graph `onlineMeetings` : la création échoue avec une erreur 403.
-- **Thunderbird 128 ou plus récent** (testé sur 153 ESR), avec les extensions expérimentales autorisées (réglage par défaut, `extensions.experiments.suppressed = false`).
+- **Thunderbird 128 à 153** (testé sur 153 ESR ; ATN impose une version maximale aux extensions expérimentales, relevée après test de chaque nouvelle version), avec les extensions expérimentales autorisées (réglage par défaut, `extensions.experiments.suppressed = false`).
 - Aucun logiciel complémentaire : toute la logique (connexion, appels Microsoft) est intégrée à l'extension.
 
 ## Installation
@@ -238,6 +238,14 @@ timeout 40 thunderbird --headless --no-remote --profile "$P"
 ```
 
 Les erreurs de l'extension apparaissent alors sur la sortie standard. Ce test vérifie le chargement de l'extension et de son API ; le bouton, le bandeau et la connexion se testent dans Thunderbird avec affichage.
+
+### Nouvelle version de Thunderbird
+
+ATN exige une version maximale (`strict_max_version`) pour les extensions expérimentales. Pour une nouvelle version de Thunderbird :
+
+1. test de l'extension dans cette version (bouton, bandeau de connexion, création, mise à jour à l'enregistrement) ;
+2. report de la version dans `strict_max_version` du manifeste (par exemple `"159.*"`) et incrément de `version` ;
+3. construction du paquet, envoi sur ATN et publication d'une version GitHub.
 
 L'identifiant de l'extension est `{0a31aea7-bc43-4855-8cd8-0422f60734ce}` (format GUID). Il ne doit plus changer : un changement obligerait les utilisateurs à réinstaller l'extension.
 

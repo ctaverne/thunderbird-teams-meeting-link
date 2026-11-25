@@ -16,7 +16,7 @@ The user interface is in French; the screenshots below show the French labels.
 
 ## Status
 
-Version 3.0.0 (final add-on ID). Behaviour validated with 2.3.3 in Thunderbird 153 ESR: sign-in through the notification bar, meeting creation, insertion of the block and of the Location, update of the Teams meeting when the event is saved.
+Version 3.0.1 (final add-on ID, compatible up to Thunderbird 153). Behaviour validated with 2.3.3 in Thunderbird 153 ESR: sign-in through the notification bar, meeting creation, insertion of the block and of the Location, update of the Teams meeting when the event is saved.
 
 ## Contents
 
@@ -38,7 +38,7 @@ Version 3.0.0 (final add-on ID). Behaviour validated with 2.3.3 in Thunderbird 1
 ## Requirements
 
 - **Microsoft 365 work or school account** (Entra ID tenant) with Teams. Personal accounts (outlook.com, hotmail…) are not supported by the Microsoft Graph `onlineMeetings` API: creation fails with a 403 error.
-- **Thunderbird 128 or later** (tested on 153 ESR), with Experiment add-ons allowed (default setting, `extensions.experiments.suppressed = false`).
+- **Thunderbird 128 to 153** (tested on 153 ESR; ATN requires a maximum version for Experiment add-ons, raised after testing each new version), with Experiment add-ons allowed (default setting, `extensions.experiments.suppressed = false`).
 - No additional software: all the logic (sign-in, Microsoft calls) is built into the add-on.
 
 ## Installation
@@ -242,6 +242,14 @@ timeout 40 thunderbird --headless --no-remote --profile "$P"
 ```
 
 Add-on errors are then printed on standard output. This test checks that the add-on and its API load; the button, the sign-in bar and the sign-in itself are tested in Thunderbird with a display.
+
+### New Thunderbird version
+
+ATN requires a maximum version (`strict_max_version`) for Experiment add-ons. For a new Thunderbird version:
+
+1. test the add-on in that version (button, sign-in bar, creation, update on save);
+2. set that version in the manifest's `strict_max_version` (for example `"159.*"`) and bump `version`;
+3. build the package, upload it to ATN and publish a GitHub release.
 
 The add-on ID is `{0a31aea7-bc43-4855-8cd8-0422f60734ce}` (GUID format). It must not change: a new ID would force users to reinstall the add-on.
 

@@ -29,6 +29,7 @@ Au premier usage, un bandeau affiche dans la fenêtre d'événement un code à s
 
 **Prérequis**
 
+- Thunderbird 128 à 153 (testé sur 153 ESR).
 - Compte Microsoft 365 professionnel ou scolaire (organisation utilisant Teams). Les comptes personnels (outlook.com, hotmail), dont Teams gratuit, ne fonctionnent pas : l'API Microsoft ne les prend pas en charge.
 - Selon la configuration du tenant, l'accord d'un administrateur peut être nécessaire.
 
@@ -61,6 +62,7 @@ On first use, a notification bar in the event window shows a code to enter on th
 
 **Requirements**
 
+- Thunderbird 128 to 153 (tested on 153 ESR).
 - Microsoft 365 work or school account (organisation using Teams). Personal accounts (outlook.com, hotmail), including Teams (free), do not work: Microsoft's API does not support them.
 - Depending on the tenant settings, administrator consent may be required.
 
@@ -81,6 +83,8 @@ The Experiment API (`api/implementation.js`) is required because no WebExtension
 - `onLoadWindow` listener on `calendar-event-dialog.xhtml`: adds the toolbar button, reads `#item-title`, `gStartTime`, `gEndTime`, inserts the block with the description editor (`insertHTML`) and shows the sign-in code in the dialog's own notification box;
 - `cal.manager.addCalendarObserver`: detects added/modified events whose description contains a Teams join link and forwards title/start/end to the background script (debounced). Read-only calendars, received invitations (`cal.itip.isInvitation`) and events whose organizer differs from the calendar `organizerId` are ignored, so an attendee cannot alter the user's meeting;
 - `aomStartup.registerChrome` for the `icones/` folder only: the event dialog CSP (`default-src chrome:`) blocks `moz-extension:` and `data:` images.
+
+Tested on Thunderbird 153 ESR; `strict_max_version` is set to `153.*` and will be raised after testing each new version.
 
 All network traffic (OAuth device code flow on login.microsoftonline.com, Microsoft Graph `/me/onlineMeetings`) happens in the background script with standard `fetch`. No remote code, no minification, no third-party library.
 
