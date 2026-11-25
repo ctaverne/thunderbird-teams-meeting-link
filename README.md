@@ -1,5 +1,7 @@
 # Teams Meeting Link for Thunderbird
 
+**Français** | [English](README.en.md)
+
 Extension Thunderbird qui ajoute un bouton **Lien Teams** dans la fenêtre « Nouvel événement ». Un clic crée une réunion Microsoft Teams unique, avec le titre et l'horaire de l'événement, puis insère le lien de connexion dans la description.
 
 Chaque réunion reçoit son propre identifiant, sa propre conversation et ses propres enregistrements, à la différence d'un lien permanent réutilisé. Les participants et l'ordre du jour restent saisis dans Thunderbird ; Teams ne fournit que la visio. Le titre et l'horaire sont ensuite tenus à jour côté Teams à chaque enregistrement de l'événement.
@@ -105,6 +107,7 @@ Sans vérification d'éditeur Microsoft, l'application apparaît comme « non v�
 
 À chaque ajout ou modification d'un événement (enregistrement de la fenêtre, déplacement dans la vue agenda, synchronisation), l'extension recherche un lien Teams dans la description. Si le titre ou l'horaire diffère de la réunion Teams, celle-ci est mise à jour et une notification « Réunion Teams mise à jour » s'affiche.
 
+- Seuls les événements de l'utilisateur sont traités : agenda modifiable, organisateur correspondant à l'identité de l'agenda, invitations reçues exclues. Un invité connaissant le lien ne peut donc pas modifier la réunion en renvoyant un événement retouché.
 - Les liens Teams d'autres organisateurs (invitations reçues) sont reconnus comme étrangers et ignorés ; un lien étranger n'est revérifié qu'après 24 heures.
 - Sans changement, aucun appel à Microsoft n'est effectué.
 - Les notifications successives d'un même événement sont regroupées (délai de 3 secondes).
@@ -213,7 +216,7 @@ Construction du paquet après modification des sources :
 ```bash
 cd extension
 # Incrémenter "version" dans manifest.json, puis :
-zip -qr ../teams-meeting-link-<version>.xpi manifest.json api background connexion options icones
+zip -qr ../teams-meeting-link-<version>.xpi manifest.json LICENSE api background connexion options icones
 ```
 
 Test de chargement sans toucher au profil principal (profil jetable, sans affichage) :
