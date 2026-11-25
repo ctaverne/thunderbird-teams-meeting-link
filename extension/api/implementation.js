@@ -354,6 +354,9 @@ function examinerEvenement(item) {
     }
     // Occurrence d'une série : la série complète (événement parent) fait foi
     const evt = item.parentItem || item;
+    if (!evenementPropre(evt)) {
+      return;
+    }
     const correspondance = (evt.descriptionText || "").match(REGEX_LIEN_TEAMS);
     if (!correspondance || !evt.startDate || !evt.endDate) {
       return;
@@ -379,6 +382,34 @@ function examinerEvenement(item) {
   } catch (e) {
     console.warn("Lien Teams : examen de l'événement impossible", e);
   }
+}
+
+/**
+ * Indique si l'événement appartient à l'utilisateur, seul cas où la réunion
+ * Teams peut être modifiée. Sont exclus : les agendas en lecture seule
+ * (abonnements, agendas partagés), les invitations reçues, et tout événement
+ * dont l'organisateur n'est pas l'identité de l'agenda. Sans ce filtre, un
+ * invité connaissant le lien pourrait, en renvoyant un événement modifié,
+ * faire changer le titre ou l'horaire de la réunion de l'utilisateur.
+ */
+function evenementPropre(evt) {
+  const agenda = evt.calendar;
+  if (!agenda || agenda.readOnly) {
+    return false;
+  }
+  if (cal.itip.isInvitation(evt)) {
+    return false;
+  }
+  const organisateur = evt.organizer && evt.organizer.id;
+  if (organisateur) {
+    // Événement avec participants : l'organisateur doit être l'utilisateur
+    const identite = agenda.getProperty("organizerId");
+    if (!identite || identite.toLowerCase() !== organisateur.toLowerCase()) {
+      return false;
+    }
+  }
+  // Sans organisateur : événement personnel créé localement
+  return true;
 }
 
 // Observateur de tous les agendas (interface calIObserver)

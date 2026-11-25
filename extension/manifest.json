@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Lien MS Teams automatique",
+  "name": "Teams Meeting Link for Thunderbird",
   "description": "Ajoute un bouton « Lien Teams » à la fenêtre d'événement : un clic crée une réunion Microsoft Teams dédiée et insère son lien dans l'invitation. Titre et horaire restent à jour. Compte Microsoft 365 professionnel requis. Extension non officielle.",
   "version": "3.0.0",
   "author": "Christophe TAVERNE",

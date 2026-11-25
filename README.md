@@ -1,4 +1,4 @@
-# Lien MS Teams automatique
+# Teams Meeting Link for Thunderbird
 
 Extension Thunderbird qui ajoute un bouton **Lien Teams** dans la fenêtre « Nouvel événement ». Un clic crée une réunion Microsoft Teams unique, avec le titre et l'horaire de l'événement, puis insère le lien de connexion dans la description.
 
@@ -38,7 +38,7 @@ Version 3.0.0 (identifiant définitif). Fonctionnement validé en 2.3.3 dans Thu
 ## Installation
 
 1. Thunderbird : ☰ > Modules complémentaires et thèmes > ⚙️ > **Installer un module depuis un fichier**.
-2. Sélection du paquet `lien-teams-<version>.xpi`.
+2. Sélection du paquet `teams-meeting-link-<version>.xpi`.
 3. Acceptation de la demande d'**accès complet**. Cet accès est requis par l'API expérimentale (bouton dans la fenêtre d'événement, observation des agendas).
 4. Redémarrage de Thunderbird, conseillé après chaque installation ou mise à jour : le code d'une API expérimentale peut rester en mémoire jusqu'au redémarrage.
 
@@ -119,7 +119,7 @@ Teams fait expirer une réunion 60 jours après sa date de fin, délai prolongé
 
 ## Options
 
-Accès : gestionnaire de modules > Lien MS Teams automatique > **Options**.
+Accès : gestionnaire de modules > Teams Meeting Link for Thunderbird > **Options**.
 
 | Réglage | Défaut | Rôle |
 |---|---|---|
@@ -213,7 +213,7 @@ Construction du paquet après modification des sources :
 ```bash
 cd extension
 # Incrémenter "version" dans manifest.json, puis :
-zip -qr ../lien-teams-<version>.xpi manifest.json api background connexion options icones
+zip -qr ../teams-meeting-link-<version>.xpi manifest.json api background connexion options icones
 ```
 
 Test de chargement sans toucher au profil principal (profil jetable, sans affichage) :
@@ -221,7 +221,7 @@ Test de chargement sans toucher au profil principal (profil jetable, sans affich
 ```bash
 P=$(mktemp -d)
 mkdir -p "$P/extensions"
-cp ../lien-teams-<version>.xpi "$P/extensions/{0a31aea7-bc43-4855-8cd8-0422f60734ce}.xpi"
+cp ../teams-meeting-link-<version>.xpi "$P/extensions/{0a31aea7-bc43-4855-8cd8-0422f60734ce}.xpi"
 cat > "$P/user.js" <<'EOF'
 user_pref("extensions.autoDisableScopes", 0);
 user_pref("devtools.console.stdout.chrome", true);

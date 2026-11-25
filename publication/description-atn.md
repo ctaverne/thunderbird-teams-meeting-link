@@ -4,7 +4,7 @@ Textes prêts à coller dans les champs de la fiche ATN. Le résumé est repris 
 
 ## Nom
 
-Lien MS Teams automatique
+Teams Meeting Link for Thunderbird
 
 ## Résumé (250 caractères maximum)
 
@@ -94,7 +94,7 @@ Fichiers prêts dans `publication/captures/` (nom du calendrier flouté, code de
 
 ## Politique de confidentialité (texte complet à saisir sur ATN)
 
-L'extension « Lien MS Teams automatique » envoie à Microsoft (login.microsoftonline.com et graph.microsoft.com), uniquement pour les événements où le bouton est utilisé ou qui contiennent un lien Teams : le titre de l'événement, son horaire de début et de fin, et le lien de la réunion Teams. Ces données servent exclusivement à créer, retrouver et mettre à jour la réunion Teams correspondante.
+L'extension « Teams Meeting Link for Thunderbird » envoie à Microsoft (login.microsoftonline.com et graph.microsoft.com), uniquement pour les événements où le bouton est utilisé ou qui contiennent un lien Teams : le titre de l'événement, son horaire de début et de fin, et le lien de la réunion Teams. Ces données servent exclusivement à créer, retrouver et mettre à jour la réunion Teams correspondante.
 
 Les jetons de connexion Microsoft, la configuration et un cache des réunions (identifiant, titre, horaire) sont conservés localement dans le stockage de l'extension, sur l'ordinateur de l'utilisateur, et supprimés à la désinstallation.
 
