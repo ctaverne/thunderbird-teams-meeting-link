@@ -4,6 +4,7 @@
   "description": "Ajoute un bouton « Lien Teams » à la fenêtre d'événement : un clic crée une réunion Microsoft Teams dédiée et insère son lien dans l'invitation. Titre et horaire restent à jour. Compte Microsoft 365 professionnel requis. Extension non officielle.",
   "version": "3.0.0",
   "author": "Christophe TAVERNE",
+  "homepage_url": "https://github.com/ctaverne/thunderbird-teams-meeting-link",
   "browser_specific_settings": {
     "gecko": {
       "id": "{0a31aea7-bc43-4855-8cd8-0422f60734ce}",
