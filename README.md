@@ -8,6 +8,8 @@ Chaque réunion reçoit son propre identifiant, sa propre conversation et ses pr
 
 Extension non officielle, sans lien avec Microsoft.
 
+> **Compte requis : compte Microsoft 365 professionnel ou scolaire** (organisation Entra ID utilisant Teams, en pratique via un abonnement Microsoft 365 ou Teams pour les entreprises, ou une offre Éducation). Les comptes Microsoft personnels (outlook.com, hotmail), dont Teams gratuit, ne fonctionnent pas : l'API Microsoft de création de réunions ne les prend pas en charge.
+
 ![Bouton Lien Teams dans la fenêtre Nouvel événement](publication/captures/01-nouvel-evenement.png)
 
 ## État

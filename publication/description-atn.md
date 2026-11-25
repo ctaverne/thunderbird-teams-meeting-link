@@ -29,7 +29,7 @@ Au premier usage, un bandeau affiche dans la fenêtre d'événement un code à s
 
 **Prérequis**
 
-- Compte Microsoft 365 professionnel avec Teams. Les comptes personnels (outlook.com, hotmail) ne sont pas pris en charge par Microsoft pour ce type de réunion.
+- Compte Microsoft 365 professionnel ou scolaire (organisation utilisant Teams). Les comptes personnels (outlook.com, hotmail), dont Teams gratuit, ne fonctionnent pas : l'API Microsoft ne les prend pas en charge.
 - Selon la configuration du tenant, l'accord d'un administrateur peut être nécessaire.
 
 **Accès complet**
@@ -61,7 +61,7 @@ On first use, a notification bar in the event window shows a code to enter on th
 
 **Requirements**
 
-- Microsoft 365 work or school account with Teams. Personal accounts (outlook.com, hotmail) are not supported by Microsoft for this kind of meeting.
+- Microsoft 365 work or school account (organisation using Teams). Personal accounts (outlook.com, hotmail), including Teams (free), do not work: Microsoft's API does not support them.
 - Depending on the tenant settings, administrator consent may be required.
 
 **Full access**

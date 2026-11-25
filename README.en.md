@@ -8,6 +8,8 @@ Each meeting gets its own ID, chat and recordings. Attendees and agenda stay in 
 
 Unofficial add-on, not affiliated with Microsoft.
 
+> **Account required: Microsoft 365 work or school account** (Entra ID organisation using Teams, in practice through a Microsoft 365 or Teams business subscription, or an Education plan). Personal Microsoft accounts (outlook.com, hotmail), including Teams (free), do not work: Microsoft's meeting creation API does not support them.
+
 The user interface is in French; the screenshots below show the French labels.
 
 ![Lien Teams button in the New Event window](publication/captures/01-nouvel-evenement.png)
