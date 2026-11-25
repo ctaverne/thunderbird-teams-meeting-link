@@ -4,11 +4,11 @@
 
 Thunderbird add-on that adds a **Lien Teams** ("Teams link") button to the "New Event" window. One click creates a unique Microsoft Teams meeting with the event title and time, then inserts the join link into the description.
 
-Each meeting gets its own ID, chat and recordings, unlike a permanent link reused over and over. Attendees and agenda stay in Thunderbird; Teams only provides the video call. The title and time are then kept up to date on the Teams side every time the event is saved.
+Each meeting gets its own ID, chat and recordings. Attendees and agenda stay in Thunderbird; Teams only provides the video call. The title and time are then kept up to date on the Teams side every time the event is saved.
 
 Unofficial add-on, not affiliated with Microsoft.
 
-The user interface is currently in French; the screenshots below show the French labels.
+The user interface is in French; the screenshots below show the French labels.
 
 ![Lien Teams button in the New Event window](publication/captures/01-nouvel-evenement.png)
 
@@ -61,7 +61,7 @@ First step, done only once: sign-in to the Microsoft 365 account that holds Team
 - **Annuler** (cancel) stops the sign-in; closing the event window has the same effect.
 - Once sign-in is complete (password and MFA in the browser), the bar disappears and creation continues without another click.
 
-The refresh token is then kept by the add-on and renewed automatically. A new sign-in is only requested after a long period of inactivity (about 90 days), after signing out from the options, or after changing the application or tenant.
+The add-on then keeps the refresh token and renews it without any action from you. A new sign-in is only requested after a long period of inactivity (about 90 days), after signing out from the options, or after changing the application or tenant.
 
 Only the delegated permissions `OnlineMeetings.ReadWrite` and `offline_access` are requested.
 
@@ -84,7 +84,7 @@ Without Microsoft publisher verification, the application is shown as "unverifie
 
 ## Usage
 
-Sign-in to the Microsoft account (previous section) is offered automatically on the first click on **Lien Teams**; creation then continues with no further action.
+Without a Microsoft session (previous section), the first click on **Lien Teams** offers to sign in; creation then resumes with no further click.
 
 1. Open a new event; enter the title, time, attendees and agenda (in any order).
 2. Click **Lien Teams** (button placed after "Invite Attendees"). The button shows "Lien Teams…" while the meeting is being created.
@@ -112,7 +112,7 @@ If the title is still empty when clicking, the meeting is created as "Réunion",
 
 Each time an event is added or modified (saved from the window, moved in the calendar view, synchronised), the add-on looks for a Teams link in the description. If the title or time differs from the Teams meeting, the meeting is updated and a "Réunion Teams mise à jour" (Teams meeting updated) notification is shown.
 
-- Only the user's own events are processed: writable calendar, organizer matching the calendar identity, received invitations excluded. An attendee who knows the link therefore cannot change the meeting by sending back a modified event.
+- Only the user's own events are processed: writable calendar, organizer matching the calendar identity, received invitations excluded. An attendee who sends back a modified event with the same link does not change the meeting.
 - Teams links from other organizers are recognised as foreign and ignored; a foreign link is only checked again after 24 hours.
 - Without any change, no call is made to Microsoft.
 - Successive notifications for the same event are grouped (3-second delay).
@@ -191,13 +191,13 @@ Technical notes:
 ## Data and privacy
 
 - **Sent to Microsoft**: event title and time (creation and update), link of the meetings to identify. Neither attendees, nor the description, nor any other calendar data are sent.
-- **Stored locally** (the add-on's `storage.local`, removed on uninstall): configuration, Microsoft tokens, cache of known meetings (ID, title, time) and of foreign links.
+- **Stored on your computer** (the add-on's `storage.local`, removed on uninstall): configuration, Microsoft tokens, cache of known meetings (ID, title, time) and of foreign links.
 - No other service is contacted.
 
 ## Known limitations
 
 - Personal Microsoft accounts are not supported (Graph API limitation).
-- The button is only available in the event dialog window, not when editing in a tab.
+- No button when editing in a tab: only the event dialog window offers it.
 - Deleting the event does not delete the Teams meeting.
 - Updates are only applied while Thunderbird is running with the add-on enabled.
 - Meetings created by the add-on do not appear in the Teams/Outlook calendar (behaviour of the `onlineMeetings` API); the Thunderbird calendar is the reference.

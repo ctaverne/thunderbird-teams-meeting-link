@@ -4,7 +4,7 @@
 
 Extension Thunderbird qui ajoute un bouton **Lien Teams** dans la fenêtre « Nouvel événement ». Un clic crée une réunion Microsoft Teams unique, avec le titre et l'horaire de l'événement, puis insère le lien de connexion dans la description.
 
-Chaque réunion reçoit son propre identifiant, sa propre conversation et ses propres enregistrements, à la différence d'un lien permanent réutilisé. Les participants et l'ordre du jour restent saisis dans Thunderbird ; Teams ne fournit que la visio. Le titre et l'horaire sont ensuite tenus à jour côté Teams à chaque enregistrement de l'événement.
+Chaque réunion reçoit son propre identifiant, sa propre conversation et ses propres enregistrements. Les participants et l'ordre du jour restent saisis dans Thunderbird ; Teams ne fournit que la visio. Le titre et l'horaire sont ensuite tenus à jour côté Teams à chaque enregistrement de l'événement.
 
 Extension non officielle, sans lien avec Microsoft.
 
@@ -58,7 +58,7 @@ Première étape, à faire une seule fois : la connexion au compte Microsoft 365
 - **Annuler** interrompt la connexion ; la fermeture de la fenêtre d'événement a le même effet.
 - Une fois la connexion validée (mot de passe et MFA dans le navigateur), le bandeau disparaît et la création se poursuit sans nouveau clic.
 
-Le jeton d'actualisation est ensuite conservé par l'extension et renouvelé automatiquement. Une nouvelle connexion n'est demandée qu'après une longue inactivité (environ 90 jours), après une déconnexion depuis les options, ou après un changement d'application ou de tenant.
+Le jeton d'actualisation est ensuite conservé par l'extension et renouvelé sans intervention. Une nouvelle connexion n'est demandée qu'après une longue inactivité (environ 90 jours), après une déconnexion depuis les options, ou après un changement d'application ou de tenant.
 
 Seules les permissions déléguées `OnlineMeetings.ReadWrite` et `offline_access` sont demandées.
 
@@ -81,7 +81,7 @@ Sans vérification d'éditeur Microsoft, l'application apparaît comme « non v�
 
 ## Utilisation
 
-La connexion au compte Microsoft (section précédente) est proposée automatiquement au premier clic sur **Lien Teams** ; la création se poursuit ensuite sans autre action.
+Sans connexion au compte Microsoft (section précédente), le premier clic sur **Lien Teams** la propose ; la création reprend ensuite sans autre clic.
 
 1. Ouverture d'un nouvel événement ; saisie du titre, de l'horaire, des participants et de l'ordre du jour (dans n'importe quel ordre).
 2. Clic sur **Lien Teams** (bouton placé après « Inviter des participants »). Le bouton affiche « Lien Teams… » pendant la création.
@@ -109,7 +109,7 @@ Si le titre est encore vide au moment du clic, la réunion est créée sous le n
 
 À chaque ajout ou modification d'un événement (enregistrement de la fenêtre, déplacement dans la vue agenda, synchronisation), l'extension recherche un lien Teams dans la description. Si le titre ou l'horaire diffère de la réunion Teams, celle-ci est mise à jour et une notification « Réunion Teams mise à jour » s'affiche.
 
-- Seuls les événements de l'utilisateur sont traités : agenda modifiable, organisateur correspondant à l'identité de l'agenda, invitations reçues exclues. Un invité connaissant le lien ne peut donc pas modifier la réunion en renvoyant un événement retouché.
+- Seuls les événements de l'utilisateur sont traités : agenda modifiable, organisateur correspondant à l'identité de l'agenda, invitations reçues exclues. Un invité qui renvoie un événement retouché avec le même lien ne modifie pas la réunion.
 - Les liens Teams d'autres organisateurs (invitations reçues) sont reconnus comme étrangers et ignorés ; un lien étranger n'est revérifié qu'après 24 heures.
 - Sans changement, aucun appel à Microsoft n'est effectué.
 - Les notifications successives d'un même événement sont regroupées (délai de 3 secondes).
@@ -118,7 +118,7 @@ Si le titre est encore vide au moment du clic, la réunion est créée sous le n
 
 ## Réunions récurrentes
 
-La récurrence est gérée dans Thunderbird. Une seule réunion Teams sert à toute la série, conformément au fonctionnement habituel de Teams et d'Outlook : la conversation et les enregistrements de la série restent regroupés. La première occurrence (événement parent) sert de référence pour la mise à jour.
+La récurrence est gérée dans Thunderbird. Une seule réunion Teams sert à toute la série, comme dans Teams et Outlook : la conversation et les enregistrements de la série restent regroupés. La première occurrence (événement parent) sert de référence pour la mise à jour.
 
 Teams fait expirer une réunion 60 jours après sa date de fin, délai prolongé à chaque connexion d'un participant. Une série régulière n'est pas concernée ; une série espacée de plus de 60 jours entre deux occurrences peut l'être.
 
@@ -188,13 +188,13 @@ Points techniques :
 ## Données et confidentialité
 
 - **Envoyés à Microsoft** : titre et horaire de l'événement (création et mise à jour), lien des réunions à identifier. Ni les participants, ni la description, ni aucune autre donnée de l'agenda ne sont transmis.
-- **Conservés localement** (`storage.local` de l'extension, supprimé à la désinstallation) : configuration, jetons Microsoft, cache des réunions connues (identifiant, titre, horaire) et des liens étrangers.
+- **Conservés sur le poste** (`storage.local` de l'extension, supprimé à la désinstallation) : configuration, jetons Microsoft, cache des réunions connues (identifiant, titre, horaire) et des liens étrangers.
 - Aucun autre service n'est contacté.
 
 ## Limites connues
 
 - Comptes Microsoft personnels non pris en charge (limitation de l'API Graph).
-- Bouton présent uniquement dans la fenêtre popup d'événement, pas en mode d'édition dans un onglet.
+- Bouton absent du mode d'édition en onglet : seule la fenêtre popup d'événement le propose.
 - La suppression de l'événement ne supprime pas la réunion Teams.
 - Les mises à jour ne sont reportées que lorsque Thunderbird est ouvert avec l'extension active.
 - Les réunions créées par l'extension n'apparaissent pas dans le calendrier Teams/Outlook (comportement de l'API `onlineMeetings`) ; l'agenda Thunderbird fait référence.
