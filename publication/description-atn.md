@@ -6,6 +6,8 @@ Textes prêts à coller dans les champs de la fiche ATN. Le résumé est repris 
 
 Teams Meeting Link for Thunderbird
 
+Adresse URL du module : `teams-meeting-link`. Site d'assistance : https://github.com/ctaverne/thunderbird-teams-meeting-link/issues (pas de courriel d'assistance public). Catégorie : Agenda et date/heure. Licence : MPL 2.0.
+
 ## Résumé (250 caractères maximum)
 
 Ajoute un bouton « Lien Teams » à la fenêtre d'événement : un clic crée une réunion Microsoft Teams dédiée et insère son lien dans l'invitation. Titre et horaire restent à jour. Compte Microsoft 365 professionnel requis. Extension non officielle.
@@ -87,6 +89,29 @@ The Experiment API (`api/implementation.js`) is required because no WebExtension
 Tested on Thunderbird 153 ESR; `strict_max_version` is set to `153.*` and will be raised after testing each new version.
 
 All network traffic (OAuth device code flow on login.microsoftonline.com, Microsoft Graph `/me/onlineMeetings`) happens in the background script with standard `fetch`. No remote code, no minification, no third-party library.
+
+## Notes aux relecteurs (version française, soumise sur ATN)
+
+L'API expérimentale (api/implementation.js) est nécessaire, car aucune API WebExtension de Thunderbird 153 ne donne accès à la fenêtre d'édition d'événement ni aux modifications des événements d'agenda :
+
+- écouteur onLoadWindow sur calendar-event-dialog.xhtml : ajout du bouton dans la barre d'outils, lecture de #item-title, gStartTime et gEndTime, insertion du bloc par l'éditeur de la description (insertHTML), et affichage du code de connexion dans la zone de notification de la fenêtre ;
+- cal.manager.addCalendarObserver : détection des événements ajoutés ou modifiés dont la description contient un lien Teams, puis transmission du titre, du début et de la fin au script d'arrière-plan (avec regroupement des notifications). Les agendas en lecture seule, les invitations reçues (cal.itip.isInvitation) et les événements dont l'organisateur diffère du organizerId de l'agenda sont ignorés : un invité ne peut donc pas modifier la réunion de l'utilisateur ;
+- aomStartup.registerChrome, limité au dossier icones/ : la politique CSP de la fenêtre d'événement (default-src chrome:) bloque les images moz-extension: et data:.
+
+Extension testée sur Thunderbird 153 ESR. strict_max_version vaut 153.* et sera relevé après le test de chaque nouvelle version.
+
+Tous les échanges réseau (connexion OAuth par code d'appareil sur login.microsoftonline.com, Microsoft Graph /me/onlineMeetings) passent par le script d'arrière-plan avec fetch. Aucun code distant, aucune minification, aucune bibliothèque tierce.
+
+Le test nécessite un compte Microsoft 365 professionnel ou scolaire utilisant Teams. Les comptes Microsoft personnels ne sont pas pris en charge par l'API Graph onlineMeetings. Aucun compte de test ne peut être fourni. Des captures de chaque étape sont jointes à la fiche, et le code source complet est publié sur https://github.com/ctaverne/thunderbird-teams-meeting-link.
+
+## Notes de version 3.0.1 (soumises sur ATN)
+
+Première version publique.
+
+- Bouton « Lien Teams » dans la fenêtre d'événement : création d'une réunion Microsoft Teams unique à partir du titre et de l'horaire de l'événement, et insertion du lien, de l'ID de réunion et du code secret dans la description.
+- Titre et horaire reportés sur la réunion Teams à l'enregistrement de l'événement (événements organisés par l'utilisateur uniquement).
+- Connexion Microsoft (code d'appareil) affichée dans la zone de notification de la fenêtre d'événement.
+- Compte Microsoft 365 professionnel ou scolaire requis.
 
 ## Captures d'écran
 
