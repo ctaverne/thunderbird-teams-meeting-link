@@ -86,7 +86,7 @@ Sans vérification d'éditeur Microsoft, l'application apparaît comme « non v�
 Sans connexion au compte Microsoft (section précédente), le premier clic sur **Lien Teams** la propose ; la création reprend ensuite sans autre clic.
 
 1. Ouverture d'un nouvel événement ; saisie du titre, de l'horaire, des participants et de l'ordre du jour (dans n'importe quel ordre).
-2. Clic sur **Lien Teams** (bouton placé après « Inviter des participants »). Le bouton affiche « Lien Teams… » pendant la création.
+2. Clic sur **Lien Teams** (bouton placé après « Inviter des participants » ; son infobulle indique si la connexion Microsoft reste à faire). Pendant l'appel à Microsoft, le bouton affiche « Création… » et un bandeau « Création de la réunion Teams en cours… » s'affiche en haut de la fenêtre ; il devient « Réunion Teams créée : lien ajouté à la description », puis disparaît après 5 secondes. En cas d'échec, le bandeau affiche le motif et reste visible.
 3. Le bloc suivant est ajouté à la fin de la description :
 
    ```
@@ -168,6 +168,9 @@ L'API expérimentale se limite aux fonctions sans équivalent dans les API WebEx
 | `alerter(idFenetre, titre, message)` | fonction | Message d'erreur dans la fenêtre d'événement |
 | `afficherCodeConnexion(idFenetre, code, url)` | fonction | Bandeau de connexion |
 | `masquerCodeConnexion(idFenetre)` | fonction | Retrait du bandeau |
+| `afficherStatut(idFenetre, type, message, dureeMs)` | fonction | Bandeau de statut de la création (en cours, succès, erreur) |
+| `masquerStatut(idFenetre)` | fonction | Retrait du bandeau de statut |
+| `definirConnecte(etat)` | fonction | État de connexion, infobulle du bouton |
 | `estOuverte(idFenetre)` | fonction | Fenêtre d'événement toujours ouverte |
 
 Points techniques :
@@ -208,7 +211,7 @@ Points techniques :
 | Erreur 403 à la création | Compte personnel, licence sans Teams, ou consentement administrateur requis dans le tenant |
 | Bouton absent | Extension désactivée ou non installée ; édition en onglet au lieu de la popup ; redémarrage de Thunderbird après mise à jour |
 | Version affichée inchangée après mise à jour | Suppression de l'extension, réinstallation depuis le fichier, puis redémarrage |
-| Bouton bloqué sur « Lien Teams… » | Connexion en attente : finaliser la connexion ou cliquer sur Annuler dans le bandeau |
+| Bouton bloqué sur « Création… » | Connexion en attente : finaliser la connexion ou cliquer sur Annuler dans le bandeau |
 | « Fenêtre d'événement non prête » | Clic trop rapide après l'ouverture de la fenêtre ; recommencer |
 | Notification « connexion requise » | Connexion expirée : clic sur Lien Teams ou bouton Se connecter des options |
 | Autre erreur | Console de Thunderbird (Ctrl+Maj+J), lignes mentionnant « Lien Teams » ou `lienteams` |

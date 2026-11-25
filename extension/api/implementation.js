@@ -40,7 +40,7 @@ const ID_ECOUTEUR = "lien-teams-fenetres";
 const URL_FENETRE = "chrome://calendar/content/calendar-event-dialog.xhtml";
 // Libellés du bouton
 const LIBELLE = "Lien Teams";
-const LIBELLE_OCCUPE = "Lien Teams…";
+const LIBELLE_OCCUPE = "Création…";
 // Texte inscrit dans le champ Lieu de l'événement
 const LIBELLE_LIEU = "Visio MS Teams";
 // Détection et extraction d'un lien de réunion Teams
@@ -63,6 +63,17 @@ const auditeursEnregistrement = new Set();
 const auditeursAnnulation = new Set();
 // Valeur identifiant le bandeau de connexion dans la zone de notification
 const VALEUR_BANDEAU = "lien-teams-connexion";
+// Valeur identifiant le bandeau de statut (création en cours, succès, erreur)
+const VALEUR_STATUT = "lien-teams-statut";
+// Infobulles du bouton selon l'état de la connexion Microsoft
+const INFOBULLE_CONNECTE =
+  "Créer une réunion Teams unique (titre et horaire de l'événement) et l'insérer dans la description.";
+const INFOBULLE_NON_CONNECTE =
+  "Créer une réunion Teams. Connexion Microsoft requise : elle sera proposée au premier clic.";
+// État de connexion connu (transmis par le script d'arrière-plan)
+let connecte = false;
+// Minuteries de retrait automatique du bandeau de statut, par fenêtre
+const minuteriesStatut = new WeakMap();
 // Fenêtres d'événement ouvertes, indexées par un identifiant numérique
 const fenetres = new Map();
 let prochainIdFenetre = 1;
@@ -247,6 +258,49 @@ function masquerBandeau(fenetre) {
   }
 }
 
+/**
+ * Affiche (ou remplace) le bandeau de statut de la création dans une fenêtre
+ * d'événement. type : "encours", "succes" ou "erreur". dureeMs > 0 : retrait
+ * automatique après ce délai.
+ */
+async function afficherStatutFenetre(fenetre, type, message, dureeMs) {
+  const zone = zoneNotification(fenetre);
+  retirerStatut(fenetre);
+  const priorites = {
+    encours: zone.PRIORITY_INFO_MEDIUM,
+    succes: zone.PRIORITY_INFO_LOW,
+    erreur: zone.PRIORITY_CRITICAL_MEDIUM,
+  };
+  await zone.appendNotification(VALEUR_STATUT, {
+    label: message,
+    priority: priorites[type] || zone.PRIORITY_INFO_MEDIUM,
+  });
+  if (dureeMs > 0) {
+    minuteriesStatut.set(
+      fenetre,
+      setTimeout(() => {
+        if (!fenetre.closed) {
+          retirerStatut(fenetre);
+        }
+      }, dureeMs)
+    );
+  }
+}
+
+/**
+ * Retire le bandeau de statut d'une fenêtre d'événement (et sa minuterie).
+ */
+function retirerStatut(fenetre) {
+  clearTimeout(minuteriesStatut.get(fenetre));
+  minuteriesStatut.delete(fenetre);
+  const fen = editeurEvenement(fenetre);
+  const zone = fen && fen.gEventNotification;
+  const statut = zone && zone.getNotificationWithValue(VALEUR_STATUT);
+  if (statut) {
+    zone.removeNotification(statut);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Bouton de la fenêtre d'événement
 // ---------------------------------------------------------------------------
@@ -311,10 +365,7 @@ function ajouterBouton(fenetre) {
   bouton.id = ID_BOUTON;
   bouton.className = "cal-event-toolbarbutton toolbarbutton-1";
   bouton.setAttribute("label", LIBELLE);
-  bouton.setAttribute(
-    "tooltiptext",
-    "Créer une réunion Teams unique (titre et horaires de l'événement) et l'insérer dans la description"
-  );
+  bouton.setAttribute("tooltiptext", connecte ? INFOBULLE_CONNECTE : INFOBULLE_NON_CONNECTE);
   bouton.setAttribute("image", ICONE);
   bouton.style.listStyleImage = `url("${ICONE}")`;
   bouton.addEventListener("command", () => surClic(fenetre, idFenetre));
@@ -573,6 +624,38 @@ this.lienTeams = class extends ExtensionCommon.ExtensionAPI {
             } else {
               bouton.removeAttribute("disabled");
               bouton.setAttribute("label", LIBELLE);
+            }
+          });
+        },
+
+        // Bandeau de statut de la création (en cours, succès, erreur)
+        async afficherStatut(idFenetre, type, message, dureeMs) {
+          return proteger("afficherStatut", async () => {
+            const fenetre = fenetreOuverte(idFenetre);
+            if (fenetre) {
+              await afficherStatutFenetre(fenetre, type, message, dureeMs);
+            }
+          });
+        },
+
+        async masquerStatut(idFenetre) {
+          return proteger("masquerStatut", async () => {
+            const fenetre = fenetreOuverte(idFenetre);
+            if (fenetre) {
+              retirerStatut(fenetre);
+            }
+          });
+        },
+
+        // État de la connexion Microsoft : infobulle de tous les boutons ouverts
+        async definirConnecte(etat) {
+          return proteger("definirConnecte", async () => {
+            connecte = etat;
+            for (const fenetre of fenetres.values()) {
+              const bouton = !fenetre.closed && fenetre.document.getElementById(ID_BOUTON);
+              if (bouton) {
+                bouton.setAttribute("tooltiptext", connecte ? INFOBULLE_CONNECTE : INFOBULLE_NON_CONNECTE);
+              }
             }
           });
         },

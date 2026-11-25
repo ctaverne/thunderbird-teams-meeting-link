@@ -89,7 +89,7 @@ Without Microsoft publisher verification, the application is shown as "unverifie
 Without a Microsoft session (previous section), the first click on **Lien Teams** offers to sign in; creation then resumes with no further click.
 
 1. Open a new event; enter the title, time, attendees and agenda (in any order).
-2. Click **Lien Teams** (button placed after "Invite Attendees"). The button shows "Lien Teams…" while the meeting is being created.
+2. Click **Lien Teams** (button placed after "Invite Attendees"; its tooltip tells whether Microsoft sign-in is still needed). While Microsoft is being called, the button shows "Création…" (creating) and a "Création de la réunion Teams en cours…" (creating the Teams meeting) bar appears at the top of the window; it then reads "Réunion Teams créée : lien ajouté à la description" (meeting created, link added) and disappears after 5 seconds. On failure, the bar shows the reason and stays visible.
 3. The following block is appended to the description:
 
    ```
@@ -171,6 +171,9 @@ The Experiment API is limited to features with no equivalent in Thunderbird's We
 | `alerter(idFenetre, titre, message)` | function | Error message in the event window |
 | `afficherCodeConnexion(idFenetre, code, url)` | function | Sign-in bar |
 | `masquerCodeConnexion(idFenetre)` | function | Remove the sign-in bar |
+| `afficherStatut(idFenetre, type, message, dureeMs)` | function | Creation status bar (in progress, success, error) |
+| `masquerStatut(idFenetre)` | function | Remove the status bar |
+| `definirConnecte(etat)` | function | Sign-in state, button tooltip |
 | `estOuverte(idFenetre)` | function | Event window still open |
 
 Technical notes:
@@ -212,7 +215,7 @@ Technical notes:
 | 403 error on creation | Personal account, licence without Teams, or administrator consent required in the tenant |
 | Button missing | Add-on disabled or not installed; editing in a tab instead of the dialog; restart Thunderbird after an update |
 | Version unchanged after update | Remove the add-on, reinstall from file, then restart |
-| Button stuck on "Lien Teams…" | Sign-in pending: complete the sign-in or click Annuler in the bar |
+| Button stuck on "Création…" | Sign-in pending: complete the sign-in or click Annuler in the bar |
 | "Fenêtre d'événement non prête" (event window not ready) | Clicked too soon after opening the window; try again |
 | "Connexion requise" (sign-in required) notification | Session expired: click Lien Teams or the Se connecter button in the options |
 | Other error | Thunderbird console (Ctrl+Shift+J), lines mentioning "Lien Teams" or `lienteams` |

@@ -177,6 +177,60 @@
             "type": "integer"
           }
         ]
+      },
+      {
+        "name": "afficherStatut",
+        "type": "function",
+        "async": true,
+        "description": "Bandeau de statut de la création : en cours, succès ou erreur.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "enum": [
+              "encours",
+              "succes",
+              "erreur"
+            ]
+          },
+          {
+            "name": "message",
+            "type": "string"
+          },
+          {
+            "name": "dureeMs",
+            "type": "integer",
+            "description": "Retrait automatique après ce délai (0 : permanent)."
+          }
+        ]
+      },
+      {
+        "name": "masquerStatut",
+        "type": "function",
+        "async": true,
+        "description": "Retire le bandeau de statut.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "definirConnecte",
+        "type": "function",
+        "async": true,
+        "description": "Indique l'état de la connexion Microsoft (infobulle du bouton).",
+        "parameters": [
+          {
+            "name": "etat",
+            "type": "boolean"
+          }
+        ]
       }
     ]
   }

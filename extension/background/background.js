@@ -74,6 +74,27 @@ async function ecrireCache(lien, valeur) {
 }
 
 // ---------------------------------------------------------------------------
+// État de connexion (infobulle du bouton)
+// ---------------------------------------------------------------------------
+
+/**
+ * Transmet l'état de connexion à l'API expérimentale (infobulle du bouton).
+ */
+function signalerConnexion(etat) {
+  browser.lienTeams.definirConnecte(etat).catch(e => console.warn("Lien Teams : état de connexion non transmis", e));
+}
+
+// État initial au démarrage, puis suivi de toute modification des jetons
+// (connexion, renouvellement refusé, déconnexion, changement d'application)
+estConnecte().then(signalerConnexion);
+browser.storage.onChanged.addListener((changements, zone) => {
+  if (zone === "local" && "jetons" in changements) {
+    const jetons = changements.jetons.newValue;
+    signalerConnexion(Boolean(jetons && jetons.actualisation));
+  }
+});
+
+// ---------------------------------------------------------------------------
 // Création d'une réunion (clic sur le bouton « Lien Teams »)
 // ---------------------------------------------------------------------------
 
@@ -82,6 +103,8 @@ browser.lienTeams.onBoutonClique.addListener(async (idFenetre, evenement) => {
   try {
     // Connexion éventuelle présentée dans un bandeau de la fenêtre d'événement
     const jeton = await obtenirJeton(true, presentationBandeau(idFenetre));
+    // Statut visible pendant l'appel à Microsoft (après l'éventuelle connexion)
+    await browser.lienTeams.afficherStatut(idFenetre, "encours", "⏳ Création de la réunion Teams en cours…", 0);
     const reunion = await creerReunion(jeton, evenement.titre, evenement.debut, evenement.fin);
     await ecrireCache(reunion.lien, {
       id: reunion.id,
@@ -94,13 +117,29 @@ browser.lienTeams.onBoutonClique.addListener(async (idFenetre, evenement) => {
       idReunion: reunion.idReunion,
       code: reunion.code,
     });
-    if (!insere) {
+    if (insere) {
+      await browser.lienTeams.afficherStatut(
+        idFenetre,
+        "succes",
+        "✅ Réunion Teams créée : lien ajouté à la description.",
+        5000
+      );
+    } else {
       // Fenêtre fermée pendant la création : la réunion existe mais n'est rattachée à rien
       notifier("Réunion Teams créée", "La fenêtre d'événement a été fermée avant l'insertion du lien.");
     }
   } catch (e) {
-    if (!(e instanceof ConnexionAnnulee)) {
-      await browser.lienTeams.alerter(idFenetre, "Lien Teams : échec", String(e.message || e));
+    if (e instanceof ConnexionAnnulee) {
+      await browser.lienTeams.masquerStatut(idFenetre).catch(() => {});
+    } else {
+      // Erreur affichée dans le bandeau, sans interrompre la saisie ;
+      // fenêtre d'alerte en dernier recours si le bandeau est indisponible
+      const message = `⚠️ Échec de la création de la réunion Teams : ${e.message || e}`;
+      try {
+        await browser.lienTeams.afficherStatut(idFenetre, "erreur", message, 0);
+      } catch (e2) {
+        await browser.lienTeams.alerter(idFenetre, "Lien Teams : échec", String(e.message || e));
+      }
     }
   } finally {
     await browser.lienTeams.definirOccupe(idFenetre, false);
