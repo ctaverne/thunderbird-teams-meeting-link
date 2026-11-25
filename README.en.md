@@ -21,8 +21,8 @@ Version 3.0.0 (final add-on ID). Behaviour validated with 2.3.3 in Thunderbird 1
 - [Status](#status)
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Usage](#usage)
 - [Microsoft sign-in](#microsoft-sign-in)
+- [Usage](#usage)
 - [Automatic update](#automatic-update)
 - [Recurring events](#recurring-events)
 - [Options](#options)
@@ -48,33 +48,9 @@ Version 3.0.0 (final add-on ID). Behaviour validated with 2.3.3 in Thunderbird 1
 
 The installed version is shown on the add-on page in the Add-ons Manager.
 
-## Usage
-
-1. Open a new event; enter the title, time, attendees and agenda (in any order).
-2. Click **Lien Teams** (button placed after "Invite Attendees"). The button shows "Lien Teams…" while the meeting is being created.
-3. The following block is appended to the description:
-
-   ```
-   Réunion Microsoft Teams
-   Rejoindre la réunion            (clickable link)
-   ID de réunion : 123 456 789
-   Code secret : Ab12Cd
-   Lien : https://teams.microsoft.com/l/meetup-join/...
-   ```
-
-   The short link at the top prevents the event summary window from scrolling to the end of the (very long) address. The full address remains in plain text for attendees, calendar server synchronisation and the automatic update.
-
-4. The **Location** field is set to "Visio MS Teams" when empty; an existing location is never overwritten.
-
-   ![Teams block inserted into the description](publication/captures/02-bloc-insere.png)
-
-5. Save and send the invitation as usual.
-
-If the title is still empty when clicking, the meeting is created as "Réunion", then renamed when the event is saved. If the description already contains a Teams link, a confirmation is requested before creating a second one.
-
 ## Microsoft sign-in
 
-Sign-in uses the **device code flow** (OAuth 2.0, Microsoft Entra ID).
+First step, done only once: sign-in to the Microsoft 365 account that holds Teams. It uses the **device code flow** (OAuth 2.0, Microsoft Entra ID) and can also be started beforehand from the [options](#options) (**Se connecter** button).
 
 - On the first click on **Lien Teams**, a notification bar appears at the top of the event window: "Connexion Microsoft requise : saisir le code XXXXXXXX sur https://login.microsoft.com/device…" (Microsoft sign-in required: enter the code on the sign-in page, then sign in with the Teams account).
 
@@ -105,6 +81,32 @@ A dedicated application can replace it from the [options](#options):
 5. copy the **Application (client) ID** into the add-on options.
 
 Without Microsoft publisher verification, the application is shown as "unverified"; tenants that only allow verified publishers then require administrator consent.
+
+## Usage
+
+Sign-in to the Microsoft account (previous section) is offered automatically on the first click on **Lien Teams**; creation then continues with no further action.
+
+1. Open a new event; enter the title, time, attendees and agenda (in any order).
+2. Click **Lien Teams** (button placed after "Invite Attendees"). The button shows "Lien Teams…" while the meeting is being created.
+3. The following block is appended to the description:
+
+   ```
+   Réunion Microsoft Teams
+   Rejoindre la réunion            (clickable link)
+   ID de réunion : 123 456 789
+   Code secret : Ab12Cd
+   Lien : https://teams.microsoft.com/l/meetup-join/...
+   ```
+
+   The short link at the top prevents the event summary window from scrolling to the end of the (very long) address. The full address remains in plain text for attendees, calendar server synchronisation and the automatic update.
+
+4. The **Location** field is set to "Visio MS Teams" when empty; an existing location is never overwritten.
+
+   ![Teams block inserted into the description](publication/captures/02-bloc-insere.png)
+
+5. Save and send the invitation as usual.
+
+If the title is still empty when clicking, the meeting is created as "Réunion", then renamed when the event is saved. If the description already contains a Teams link, a confirmation is requested before creating a second one.
 
 ## Automatic update
 

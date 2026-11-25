@@ -19,8 +19,8 @@ Version 3.0.0 (identifiant définitif). Fonctionnement validé en 2.3.3 dans Thu
 - [État](#état)
 - [Prérequis](#prérequis)
 - [Installation](#installation)
-- [Utilisation](#utilisation)
 - [Connexion Microsoft](#connexion-microsoft)
+- [Utilisation](#utilisation)
 - [Mise à jour automatique](#mise-à-jour-automatique)
 - [Réunions récurrentes](#réunions-récurrentes)
 - [Options](#options)
@@ -46,33 +46,9 @@ Version 3.0.0 (identifiant définitif). Fonctionnement validé en 2.3.3 dans Thu
 
 La version installée est visible sur la fiche de l'extension dans le gestionnaire de modules.
 
-## Utilisation
-
-1. Ouverture d'un nouvel événement ; saisie du titre, de l'horaire, des participants et de l'ordre du jour (dans n'importe quel ordre).
-2. Clic sur **Lien Teams** (bouton placé après « Inviter des participants »). Le bouton affiche « Lien Teams… » pendant la création.
-3. Le bloc suivant est ajouté à la fin de la description :
-
-   ```
-   Réunion Microsoft Teams
-   Rejoindre la réunion            (lien cliquable)
-   ID de réunion : 123 456 789
-   Code secret : Ab12Cd
-   Lien : https://teams.microsoft.com/l/meetup-join/...
-   ```
-
-   Le lien court en tête évite que la fenêtre de résumé d'un événement ne défile jusqu'à la fin de l'adresse. L'adresse complète reste présente en texte simple pour les invités, la synchronisation avec le serveur d'agenda et la mise à jour automatique.
-
-4. Le champ **Lieu** reçoit « Visio MS Teams » s'il est vide ; un lieu déjà saisi n'est jamais écrasé.
-
-   ![Bloc Teams inséré dans la description](publication/captures/02-bloc-insere.png)
-
-5. Enregistrement et envoi de l'invitation, comme d'habitude.
-
-Si le titre est encore vide au moment du clic, la réunion est créée sous le nom « Réunion », puis renommée à l'enregistrement de l'événement. Si la description contient déjà un lien Teams, une confirmation est demandée avant d'en créer un second.
-
 ## Connexion Microsoft
 
-La connexion utilise le **flux par code d'appareil** (OAuth 2.0, Microsoft Entra ID).
+Première étape, à faire une seule fois : la connexion au compte Microsoft 365 qui porte Teams. Elle utilise le **flux par code d'appareil** (OAuth 2.0, Microsoft Entra ID) et peut aussi être lancée à l'avance depuis les [options](#options) (bouton **Se connecter**).
 
 - Au premier clic sur **Lien Teams**, un bandeau s'affiche en haut de la fenêtre d'événement : « Connexion Microsoft requise : saisir le code XXXXXXXX sur https://login.microsoft.com/device, puis se connecter avec le compte Teams ».
 ![Bandeau de connexion Microsoft](publication/captures/03-connexion-bandeau.png)
@@ -102,6 +78,32 @@ Une application dédiée peut la remplacer depuis les [options](#options) :
 5. report de l'**ID d'application (client)** dans les options de l'extension.
 
 Sans vérification d'éditeur Microsoft, l'application apparaît comme « non vérifiée » ; les tenants qui n'autorisent que les éditeurs vérifiés exigent alors l'accord d'un administrateur.
+
+## Utilisation
+
+La connexion au compte Microsoft (section précédente) est proposée automatiquement au premier clic sur **Lien Teams** ; la création se poursuit ensuite sans autre action.
+
+1. Ouverture d'un nouvel événement ; saisie du titre, de l'horaire, des participants et de l'ordre du jour (dans n'importe quel ordre).
+2. Clic sur **Lien Teams** (bouton placé après « Inviter des participants »). Le bouton affiche « Lien Teams… » pendant la création.
+3. Le bloc suivant est ajouté à la fin de la description :
+
+   ```
+   Réunion Microsoft Teams
+   Rejoindre la réunion            (lien cliquable)
+   ID de réunion : 123 456 789
+   Code secret : Ab12Cd
+   Lien : https://teams.microsoft.com/l/meetup-join/...
+   ```
+
+   Le lien court en tête évite que la fenêtre de résumé d'un événement ne défile jusqu'à la fin de l'adresse. L'adresse complète reste présente en texte simple pour les invités, la synchronisation avec le serveur d'agenda et la mise à jour automatique.
+
+4. Le champ **Lieu** reçoit « Visio MS Teams » s'il est vide ; un lieu déjà saisi n'est jamais écrasé.
+
+   ![Bloc Teams inséré dans la description](publication/captures/02-bloc-insere.png)
+
+5. Enregistrement et envoi de l'invitation, comme d'habitude.
+
+Si le titre est encore vide au moment du clic, la réunion est créée sous le nom « Réunion », puis renommée à l'enregistrement de l'événement. Si la description contient déjà un lien Teams, une confirmation est demandée avant d'en créer un second.
 
 ## Mise à jour automatique
 
