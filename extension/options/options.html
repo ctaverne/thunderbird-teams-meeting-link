@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at https://mozilla.org/MPL/2.0/.
+   - (Code source soumis à la Mozilla Public License 2.0, texte officiel ci-dessus.) -->
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Lien MS Teams automatique</title>
+  <style>
+    :root { color-scheme: light dark; font: message-box; }
+    body { margin: 12px; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input { width: 100%; box-sizing: border-box; font-family: monospace; }
+    .aide { font-size: 0.9em; opacity: 0.8; margin: 2px 0 0; }
+    .actions { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; }
+    #etat { margin-top: 12px; }
+  </style>
+</head>
+<body>
+  <p id="etat">…</p>
+  <div class="actions">
+    <button id="connecter">Se connecter</button>
+    <button id="deconnecter">Se déconnecter</button>
+  </div>
+
+  <label for="clientId">Identifiant d'application (client ID)</label>
+  <input id="clientId" spellcheck="false">
+  <p class="aide">Par défaut : application Microsoft « Graph Command Line Tools ». Une application inscrite dans Entra ID (client public, permission déléguée OnlineMeetings.ReadWrite) peut la remplacer.</p>
+
+  <label for="tenant">Tenant</label>
+  <input id="tenant" spellcheck="false">
+  <p class="aide">« organizations » (tout compte professionnel) ou identifiant du tenant.</p>
+
+  <div class="actions">
+    <button id="enregistrer">Enregistrer</button>
+    <button id="defaut">Valeurs par défaut</button>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

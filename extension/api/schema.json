@@ -1,0 +1,183 @@
+[
+  {
+    "namespace": "lienTeams",
+    "description": "Intégration à la fenêtre d'événement et aux agendas de Thunderbird (fonctions sans équivalent dans les API WebExtension standard).",
+    "events": [
+      {
+        "name": "onBoutonClique",
+        "type": "function",
+        "description": "Clic sur le bouton « Lien Teams » d'une fenêtre d'événement.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "evenement",
+            "type": "object",
+            "properties": {
+              "titre": {
+                "type": "string"
+              },
+              "debut": {
+                "type": "string",
+                "description": "ISO 8601 (UTC)"
+              },
+              "fin": {
+                "type": "string",
+                "description": "ISO 8601 (UTC)"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "onEvenementEnregistre",
+        "type": "function",
+        "description": "Événement ajouté ou modifié contenant un lien Teams (notifications regroupées).",
+        "parameters": [
+          {
+            "name": "evenement",
+            "type": "object",
+            "properties": {
+              "lien": {
+                "type": "string"
+              },
+              "titre": {
+                "type": "string"
+              },
+              "debut": {
+                "type": "string"
+              },
+              "fin": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "onConnexionAnnulee",
+        "type": "function",
+        "description": "Clic sur « Annuler » dans le bandeau de connexion d'une fenêtre d'événement.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "functions": [
+      {
+        "name": "insererBloc",
+        "type": "function",
+        "async": true,
+        "description": "Insère le bloc Teams dans la description et renseigne le Lieu s'il est vide.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "reunion",
+            "type": "object",
+            "properties": {
+              "lien": {
+                "type": "string"
+              },
+              "idReunion": {
+                "type": "string",
+                "optional": true
+              },
+              "code": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "definirOccupe",
+        "type": "function",
+        "async": true,
+        "description": "Bascule le bouton entre l'état normal et l'état « création en cours ».",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "occupe",
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "alerter",
+        "type": "function",
+        "async": true,
+        "description": "Affiche un message d'erreur dans la fenêtre d'événement.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "titre",
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "afficherCodeConnexion",
+        "type": "function",
+        "async": true,
+        "description": "Affiche le code de connexion Microsoft dans un bandeau de la fenêtre d'événement.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          },
+          {
+            "name": "code",
+            "type": "string"
+          },
+          {
+            "name": "url",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "masquerCodeConnexion",
+        "type": "function",
+        "async": true,
+        "description": "Retire le bandeau de connexion.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "estOuverte",
+        "type": "function",
+        "async": true,
+        "description": "Indique si la fenêtre d'événement est toujours ouverte.",
+        "parameters": [
+          {
+            "name": "idFenetre",
+            "type": "integer"
+          }
+        ]
+      }
+    ]
+  }
+]

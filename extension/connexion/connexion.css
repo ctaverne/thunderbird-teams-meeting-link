@@ -1,0 +1,21 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ * (Code source soumis à la Mozilla Public License 2.0, texte officiel ci-dessus.) */
+
+/* Fenêtre de connexion : mise en page simple, suit le thème clair/sombre du système */
+:root { color-scheme: light dark; font: message-box; }
+body { margin: 16px 20px; }
+h1 { font-size: 1.15em; margin: 0 0 8px; }
+.code {
+  font: bold 1.8em monospace;
+  letter-spacing: 0.12em;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #7b83eb;
+  border-radius: 6px;
+  user-select: all;
+}
+.actions { display: flex; gap: 8px; justify-content: center; }
+button.principal { background: #5059c9; color: #fff; border: 1px solid #5059c9; border-radius: 4px; padding: 4px 12px; }
+.etat { font-size: 0.9em; opacity: 0.8; text-align: center; }

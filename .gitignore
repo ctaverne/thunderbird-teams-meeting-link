@@ -1,0 +1,5 @@
+# Paquets construits (publiés en tant que versions sur GitHub, pas suivis dans le dépôt)
+*.xpi
+# Fichiers temporaires
+*~
+.DS_Store

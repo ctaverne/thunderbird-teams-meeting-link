@@ -1,0 +1,57 @@
+{
+  "manifest_version": 2,
+  "name": "Lien MS Teams automatique",
+  "description": "Ajoute un bouton « Lien Teams » à la fenêtre d'événement : un clic crée une réunion Microsoft Teams dédiée et insère son lien dans l'invitation. Titre et horaire restent à jour. Compte Microsoft 365 professionnel requis. Extension non officielle.",
+  "version": "3.0.0",
+  "author": "Christophe TAVERNE",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{0a31aea7-bc43-4855-8cd8-0422f60734ce}",
+      "strict_min_version": "128.0"
+    }
+  },
+  "icons": {
+    "16": "icones/teams-16.png",
+    "32": "icones/teams-32.png",
+    "48": "icones/teams-48.png",
+    "64": "icones/teams-64.png",
+    "128": "icones/teams-128.png"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "https://login.microsoftonline.com/*",
+    "https://graph.microsoft.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background/config.js",
+      "background/auth.js",
+      "background/graph.js",
+      "background/background.js"
+    ]
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": false
+  },
+  "experiment_apis": {
+    "lienTeams": {
+      "schema": "api/schema.json",
+      "parent": {
+        "scopes": [
+          "addon_parent"
+        ],
+        "paths": [
+          [
+            "lienTeams"
+          ]
+        ],
+        "script": "api/implementation.js",
+        "events": [
+          "startup"
+        ]
+      }
+    }
+  }
+}
